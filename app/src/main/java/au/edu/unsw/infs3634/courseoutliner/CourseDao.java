@@ -16,5 +16,5 @@ public interface CourseDao {
 
     //TODO Implement a Room query that returns all courses from a specified school
     @Query("SELECT * FROM course WHERE school = :school")
-    List<Course> getCourse(String school);
+    List<Course> getCourses(String school);
 }

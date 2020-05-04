@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -19,37 +20,41 @@ import java.util.List;
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
     private MainActivity mParentActivity;
     private List<Course> mCourses;
+    private CourseClickListener listener;
 
-    private View.OnClickListener CourseClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v){
-            Course course = (Course) v.getTag();
-            Context context = v.getContext();
-            Intent intent = new Intent(context, DetailActivity.class);
-            intent.putExtra(DetailActivity.CODE_EXTRA, course.getId());
-            context.startActivity(intent);
-        }
-    };
-
-    public CourseAdapter(MainActivity parent, List<Course> courses) {
-        mParentActivity = parent;
+    public CourseAdapter(List<Course> courses, CourseClickListener listener) {
+//        mParentActivity = parent;
         mCourses = courses;
+        this.listener = listener;
     }
 
-    public static class CourseViewHolder extends RecyclerView.ViewHolder {
+    public interface CourseClickListener {
+        void onClick(int id);
+    }
+    public static class CourseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView name, school, code;
-        public CourseViewHolder(View v) {
+        final CourseClickListener listener;
+
+        CourseViewHolder(View v, CourseClickListener listener) {
             super(v);
+            v.setOnClickListener(this);
+            this.listener = listener;
             name = v.findViewById(R.id.tvName);
             school = v.findViewById(R.id.tvSchool);
             code = v.findViewById(R.id.tvCode);
         }
+
+        @Override
+        public void onClick (View v) {
+            listener.onClick(getAdapterPosition());
+        }
     }
 
+    @NonNull
     @Override
-    public CourseAdapter.CourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CourseAdapter.CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.course_item, parent, false);
-        return new CourseViewHolder(v);
+        return new CourseViewHolder(v, listener);
     }
 
     @Override
@@ -59,7 +64,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.school.setText(course.getSchool());
         holder.code.setText(course.getCode());
         holder.itemView.setTag(course);
-        holder.itemView.setOnClickListener(CourseClickListener);
+//        holder.itemView.setOnClickListener(listener);
     }
 
     @Override
