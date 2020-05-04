@@ -1,0 +1,2 @@
+rootProject.name='CourseOutliner'
+include ':app'
