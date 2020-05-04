@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected List<Course> doInBackground(Boolean... filtered) {
             if(filtered[0]) {
-                return mDb.courseDao().getCourses("Accounting");
+                return mDb.courseDao().getCourses("Info Systems & Tech Mgmt");
             } else {
                 return mDb.courseDao().getCourses();
             }
