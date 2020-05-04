@@ -12,9 +12,9 @@ public interface CourseDao {
 
     //TODO Implement a Room query that return a course with a specified id
     @Query("SELECT * FROM course WHERE id = :id")
-    List<Course> getCourse(int id);
+    Course getCourse(int id);
 
     //TODO Implement a Room query that returns all courses from a specified school
     @Query("SELECT * FROM course WHERE school = :school")
-    List <Course> getCourse(String school);
+    List<Course> getCourse(String school);
 }

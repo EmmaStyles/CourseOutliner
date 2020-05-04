@@ -36,13 +36,13 @@ public class DetailActivity extends AppCompatActivity {
         mDb = Room.databaseBuilder(this, CourseDatabase.class, "courses.db").build();
 
         Intent intent = getIntent();
-        //TODO BELOW
-        Bundle id = intent.getExtras("CODE_EXTRA", 1);
+        //Changed to "getIntExtra" to get the extras in int form
+        int id = intent.getIntExtra("EXTRA", 1);
 
         new GetCourseTask().execute();
     }
-
-    private void updateUi(Course param) {
+    //made public so can access from Main Activity
+    public void updateUi(Course param) {
         //changed to final so onCLick method can access course
         final Course course = param;
         mCode.setText(course.getCode());
@@ -54,8 +54,9 @@ public class DetailActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(String.valueOf(DetailActivity.this), Uri.parse("https://www.google.com/search?q=" + course.getName()));
-                intent.setData(course.getUrl());
+                //set URL to google search of course code
+                course.setUrl("https://www.google.com/search?q=" + course.getCode());
+                Intent intent = new Intent(String.valueOf(DetailActivity.this), Uri.parse(course.getUrl()));
                 startActivity(intent);
             }
         });
@@ -65,12 +66,14 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         protected Course doInBackground(Integer... id) {
+            //change to (id[0]) so getCourse returns only the first result from the List
             return mDb.courseDao().getCourse(id[0]);
         }
 
         @Override
         protected void onPostExecute(Course course) {
-            updateUi(getCourse(id));
+            //changed to updatedUi (course) since it's in this form
+            updateUi(course);
         }
     }
 }

@@ -20,7 +20,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     private MainActivity mParentActivity;
     private List<Course> mCourses;
 
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener CourseClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v){
             Course course = (Course) v.getTag();
@@ -43,7 +43,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             name = v.findViewById(R.id.tvName);
             school = v.findViewById(R.id.tvSchool);
             code = v.findViewById(R.id.tvCode);
-
         }
     }
 
@@ -60,7 +59,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.school.setText(course.getSchool());
         holder.code.setText(course.getCode());
         holder.itemView.setTag(course);
-        holder.itemView.setOnClickListener(mOnClickListener);
+        holder.itemView.setOnClickListener(CourseClickListener);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView mRecyclerView = findViewById(R.id.rvList);
+        final RecyclerView mRecyclerView = findViewById(R.id.rvList);
         mRecyclerView.setHasFixedSize(true);
 
         mDb = Room.databaseBuilder(this, CourseDatabase.class, "courses.db").createFromAsset("courses.db").build();
@@ -47,15 +47,14 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new CourseAdapter(new ArrayList<Course>(), new CourseAdapter.CourseClickListener() {
             @Override
             public void onClick(int id) {
-                //TODO Create an Intent object that launches the DetailActivity using an explicit intent
-                Intent intent = getIntent();
-//                intent(DetailActivity.class);
+                // Create an Intent object that launches the DetailActivity using an explicit intent
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.putExtra(DetailActivity.CODE_EXTRA, id);
                 startActivity(intent);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        //TODO Implement code that executes the AsyncTask implemented below without filtering the data
+        //Implement code that executes the AsyncTask implemented below without filtering the data
         new GetCoursesTask().execute();
 
     }
@@ -71,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //TODO Implement an onPostExecute method which updates the CourseAdapter's data
-        protected void onPostExecute(CourseAdapter courseAdapter) {
-            mAdapter = courseAdapter;
-            //updateUi();
+        // Implement an onPostExecute method which updates the CourseAdapter's data
+        protected void onPostExecute(List<Course> courses) {
+            mAdapter.setCourses(courses);
+
         }
     }
 }

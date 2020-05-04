@@ -1,7 +1,5 @@
 package au.edu.unsw.infs3634.courseoutliner;
 
-import android.net.Uri;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -84,7 +82,7 @@ public class Course {
         this.year = year;
     }
 
-    public Uri getUrl() {
+    public String getUrl() {
         return url;
     }
 
